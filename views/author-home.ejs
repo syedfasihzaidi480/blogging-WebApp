@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Author Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/styles.css" /> 
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Author</a> 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/author">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="/author/new-draft">Create new Draft</a>
+                    </li>
+                </ul>
+                <a href="/auth/logout" class="btn btn-sm btn btn-outline-light">Log Out</a>
+            </div>
+        </div>
+    </nav>
+
+    <div style="padding: 20px;">
+        <div style="max-width: 800px; margin: 0 auto; text-align: center; color: black;">
+            <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 10px;">
+                Author Home Page
+            </h2> <hr>
+        </div>
+    </div>
+
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Published Articles</h2>
+        <hr>
+        <div class="row d-flex justify-content-center align-items-center">
+            <% for (let i=0; i < article.length; i++) { %>
+                <% if (article[i].article_status == "Published") { %>
+                    <div class="card my-3 mx-3" style="width: 24rem; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                        <div class="card-body">
+                            <% if (article[i].title) { %>
+                                <h2 class="card-title text-center mb-4"><%= article[i].title %></h2>
+                            <% } else { %>
+                                <h2 class="card-title text-center mb-4">Article <%= article[i].id %></h2>
+                            <% } %>
+                            <div class="card-text text-muted mb-3">
+                                <% if (article[i].author_name) { %>
+                                    <p><b>By:</b> <%= article[i].author_name %></p>
+                                <% } %>
+                                <p><b>Created:</b> <%= article[i].created %></p>
+                                <p><b>Published:</b> <%= article[i].published %></p>
+                                <p><b>Last Modified:</b> <%= article[i].last_modified %></p>
+                                <p><b>Reads:</b> <%= article[i].number_of_reads %></p>
+                                <p><b>Reactions:</b> <%= article[i].reactions %></p>
+                            </div>
+                            <div class="mb-2">
+                                <a href="/author/edit-article?article_id=<%= article[i].id %>" class="btn btn-primary w-100">Edit</a>
+                            </div>
+                            <div class="mb-2">
+                                <a href="/reader/articles?article_id=<%= article[i].id %>" class="btn btn-success w-100">Shareable Link</a>
+                            </div>
+                            <div class="mb-2">
+                                <a href="/author/settings?article_id=<%= article[i].id %>" class="btn btn-secondary w-100">Settings</a>
+                            </div>
+                            <div>
+                                <a href="/author/delete?article_id=<%= article[i].id %>" class="btn btn-danger w-100">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Draft Articles</h2>
+        <hr>
+        <div class="row d-flex justify-content-center align-items-center">
+            <% for (let i=0; i < article.length; i++) { %>
+                <% if (article[i].article_status == "Draft") { %>
+                    <div class="card my-3 mx-3" style="width: 24rem; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                        <div class="card-body">
+
+                            <h2 class="text-center mb-4">Article <%= article[i].id %></h2>
+
+                            <div class="card-text text-muted mb-3">
+                                <% if (article[i].title) { %>
+                                    <p><b>Title:</b> <%= article[i].title %></p>
+                                <% } %>
+                                <p><b>Created:</b> <%= article[i].created %></p>
+                                <p><b>Last Modified:</b> <%= article[i].last_modified %></p>
+                            </div>
+                            <div class="mb-2">
+                                <a href="/author/edit-article?article_id=<%= article[i].id %>" class="btn btn-primary w-100">Edit</a>
+                            </div>
+                            <div class="mb-2">
+                                <a href="/author/publish?article_id=<%= article[i].id %>" class="btn btn-success w-100">Publish</a>
+                            </div>
+                            <div class="mb-2">
+                                <a href="/author/settings?article_id=<%= article[i].id %>" class="btn btn-secondary w-100">Settings</a>
+                            </div>
+                            <div>
+                                <a href="/author/delete?article_id=<%= article[i].id %>" class="btn btn-danger w-100">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
